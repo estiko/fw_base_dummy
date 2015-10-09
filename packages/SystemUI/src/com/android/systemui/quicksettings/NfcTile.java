@@ -37,6 +37,9 @@ public class NfcTile extends QuickSettingsTile {
             public void onClick(View v) {
                 toggleState();
                 updateResources();
+                if (isFlipTilesEnabled()) {
+                    flipTile(0);
+                }
             }
         };
         mOnLongClick = new View.OnLongClickListener() {

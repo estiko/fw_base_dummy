@@ -57,6 +57,9 @@ public class SyncTile extends QuickSettingsTile {
                     ContentResolver.setMasterSyncAutomatically(true);
                 }
                 updateResources();
+                if (isFlipTilesEnabled()) {
+                    flipTile(0);
+                }
             }
         };
         mOnLongClick = new View.OnLongClickListener() {

@@ -38,6 +38,9 @@ public class LteTile extends QuickSettingsTile {
             public void onClick(View v) {
                 toggleLteState();
                 updateResources();
+                if (isFlipTilesEnabled()) {
+                    flipTile(0);
+                }
             }
         };
         mOnLongClick = new View.OnLongClickListener() {
