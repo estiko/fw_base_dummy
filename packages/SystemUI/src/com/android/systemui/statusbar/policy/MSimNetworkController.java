@@ -18,6 +18,9 @@
 
 package com.android.systemui.statusbar.policy;
 
+import static android.telephony.TelephonyManager.SIM_STATE_ABSENT;
+import static android.telephony.TelephonyManager.SIM_STATE_READY;
+
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -393,27 +396,6 @@ public class MSimNetworkController extends NetworkController {
             mCarrierTextSub[sub] = mContext.getString(textResId);
         }
     }
-
-    private void setCarrierText() {
-        for (int i = 0; i < mSubsLabelViews.size(); i++) {
-            View v = mSubsLabelViews.get(i);
-            TextView label1 = (TextView)v.findViewById(R.id.sub1_label);
-            if (label1 != null) {
-                label1.setText(mCarrierTextSub[MSimConstants.SUB1]);
-            }
-            TextView label2 = (TextView)v.findViewById(R.id.sub2_label);
-            if (label2 != null) {
-                label2.setText(mCarrierTextSub[MSimConstants.SUB2]);
-            }
-            if (mSimSlotCount == 3) {
-                TextView label3 = (TextView)v.findViewById(R.id.sub3_label);
-                if (label3 != null) {
-                    label3.setText(mCarrierTextSub[MSimConstants.SUB3]);
-                }
-            }
-        }
-    }
-
 
     // ===== Telephony ==============================================================
 
@@ -1380,9 +1362,19 @@ public class MSimNetworkController extends NetworkController {
 
         // mobile label
         N = mMobileLabelViews.size();
+        String carrierName;
+        MSimTelephonyManager mtm = MSimTelephonyManager.getDefault();
+        int mSub1Status = mtm.getSimState(MSimConstants.SUB1);
+        int mSub2Status = mtm.getSimState(MSimConstants.SUB2);
+        if (mSub1Status == SIM_STATE_ABSENT && mSub2Status == SIM_STATE_ABSENT
+                || mSub1Status == SIM_STATE_READY && mSub2Status == SIM_STATE_READY) {
+            carrierName = mCarrierTextSub[MSimConstants.SUB1] + "    " + mCarrierTextSub[MSimConstants.SUB2];
+        } else {
+            carrierName = mSub1Status == SIM_STATE_READY ? mCarrierTextSub[MSimConstants.SUB1] + "" : mCarrierTextSub[MSimConstants.SUB2] + "";
+        }
         for (int i=0; i<N; i++) {
             TextView v = mMobileLabelViews.get(i);
-            v.setText(mobileLabel);
+            v.setText(carrierName);
             if ("".equals(mobileLabel)) {
                 v.setVisibility(View.GONE);
             } else {
