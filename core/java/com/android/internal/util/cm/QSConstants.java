@@ -32,6 +32,7 @@ public class QSConstants {
         public static final String TILE_EXPANDEDDESKTOP = "toggleExpandedDesktop";
         public static final String TILE_CAMERA = "toggleCamera";
         public static final String TILE_NETWORKADB = "toggleNetworkAdb";
+	public static final String TILE_POWER = "togglePowerMenu";
         public static final String TILE_COMPASS = "toggleCompass";
         public static final String TILE_HEADS_UP = "toggleHeadsUp";
         public static final String TILE_THEMES = "toggleThemes";
