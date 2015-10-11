@@ -4086,6 +4086,12 @@ public final class Settings {
          */
         public static final String CLEAR_RECENTS_BUTTON_LOCATION = "clear_recents_button_location";
 
+       /**
+         * Allows to show the background activity back the lockscreen
+         * @hide
+         */
+        public static final String LOCKSCREEN_SEE_THROUGH = "lockscreen_see_through";
+
         /**
          * Colorize custom lock icon true/false
          * @hide
