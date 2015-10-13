@@ -285,6 +285,22 @@ public class KeyguardSelectorView extends LinearLayout implements KeyguardSecuri
         }
     }
 
+	final boolean lockBeforeUnlock = Settings.Secure.getIntForUser(
+                mContext.getContentResolver(),
+                Settings.Secure.LOCK_BEFORE_UNLOCK, 0,
+                UserHandle.USER_CURRENT) == 1;
+
+        // bring emergency button on slider lockscreen
+        // to front when lockBeforeUnlock is enabled
+        // to make it clickable
+        if (mLockPatternUtils != null && mLockPatternUtils.isSecure() && lockBeforeUnlock) {
+            LinearLayout ecaContainer =
+                (LinearLayout) findViewById(R.id.keyguard_selector_fade_container);
+            if (ecaContainer != null) {
+                ecaContainer.bringToFront();
+            }
+        }
+
     public void setCarrierArea(View carrierArea) {
         mFadeView = carrierArea;
     }
@@ -576,9 +592,9 @@ public class KeyguardSelectorView extends LinearLayout implements KeyguardSecuri
     }
 
     public void updateLockscreenBattery(KeyguardUpdateMonitor.BatteryStatus status) {
-        if (Settings.PAC.getIntForUser(
+        if (Settings.System.getIntForUser(
                 mContext.getContentResolver(),
-                Settings.PAC.BATTERY_AROUND_LOCKSCREEN_RING,
+                Settings.System.BATTERY_AROUND_LOCKSCREEN_RING,
                 0 /*default */,
                 UserHandle.USER_CURRENT) == 1) {
             if (status != null) mBatteryLevel = status.level;
