@@ -1115,6 +1115,12 @@ public class KeyguardViewManager {
         }
     }
 
+    public void showCustomIntent(Intent intent) {
+        if (mKeyguardView != null) {
+           mKeyguardView.showCustomIntent(intent);
+        }
+    }
+
     public void dispatchCameraEvent(MotionEvent event) {
         if (mKeyguardView != null) {
             mKeyguardView.dispatchCameraEvent(event);

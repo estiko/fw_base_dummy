@@ -135,7 +135,8 @@ public class KeyguardViewMediator {
     private static final int LAUNCH_CAMERA = 17;
     private static final int LAUNCH_APPLICATION_WIDGET = 18;
     private static final int DISMISS = 19;
-    private static final int DISPATCH_BUTTON_CLICK_EVENT = 20;
+    private static final int START_CUSTOM_INTENT = 20;
+    private static final int DISPATCH_BUTTON_CLICK_EVENT = 21;
 
     /**
      * The default amount of time we stay awake (used for all key input)
@@ -1142,6 +1143,9 @@ public class KeyguardViewMediator {
                 case SHOW_ASSISTANT:
                     handleShowAssistant();
                     break;
+                case START_CUSTOM_INTENT:
+                    handleShowCustomIntent((Intent) msg.obj);
+                    break;
                 case DISPATCH_CAMERA_EVENT:
                     handleDispatchCameraEvent((MotionEvent) msg.obj);
                     break;
@@ -1448,6 +1452,15 @@ public class KeyguardViewMediator {
 
     public void handleShowAssistant() {
         mKeyguardViewManager.showAssistant();
+    }
+
+    public void showCustomIntent(Intent intent) {
+        Message msg = mHandler.obtainMessage(START_CUSTOM_INTENT, intent);
+        mHandler.sendMessage(msg);
+    }
+
+    public void handleShowCustomIntent(Intent intent) {
+        mKeyguardViewManager.showCustomIntent(intent);
     }
 
     private boolean isAssistantAvailable() {
