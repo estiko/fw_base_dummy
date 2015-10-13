@@ -40,7 +40,6 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.UserHandle;
@@ -57,7 +56,6 @@ import android.widget.LinearLayout;
 
 import com.android.internal.telephony.IccCardConstants.State;
 import com.android.internal.util.cm.LockscreenTargetUtils;
-import com.android.internal.util.slim.ImageHelper;
 import com.android.internal.widget.LockPatternUtils;
 import com.android.internal.widget.multiwaveview.GlowPadView;
 import com.android.internal.widget.multiwaveview.GlowPadView.OnTriggerListener;
@@ -207,57 +205,13 @@ public class KeyguardSelectorView extends LinearLayout implements KeyguardSecuri
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-
-        int lockColor = Settings.Secure.getIntForUser(
-                mContext.getContentResolver(),
-                Settings.Secure.LOCKSCREEN_LOCK_COLOR, -2,
-                UserHandle.USER_CURRENT);
-
-        int dotColor = Settings.Secure.getIntForUser(
-                mContext.getContentResolver(),
-                Settings.Secure.LOCKSCREEN_DOTS_COLOR, -2,
-                UserHandle.USER_CURRENT);
-
-        int ringColor = Settings.Secure.getIntForUser(
-                mContext.getContentResolver(),
-                Settings.Secure.LOCKSCREEN_MISC_COLOR, -2,
-                UserHandle.USER_CURRENT);
-
-        String lockIcon = Settings.Secure.getStringForUser(
-                mContext.getContentResolver(),
-                Settings.Secure.LOCKSCREEN_LOCK_ICON,
-                UserHandle.USER_CURRENT);
-
         mGlowPadView = (GlowPadView) findViewById(R.id.glow_pad_view);
         mGlowPadView.setOnTriggerListener(mOnTriggerListener);
-
-        Bitmap lock = null;
-
-        if (lockIcon != null && lockIcon.length() > 0) {
-           File f = new File(lockIcon);
-            if (f.exists()) {
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-                lock = BitmapFactory.decodeFile(lockIcon, options);
-
-                if (Settings.Secure.getIntForUser(
-                        mContext.getContentResolver(),
-                        Settings.Secure.LOCKSCREEN_COLORIZE_LOCK, 0,
-                        UserHandle.USER_CURRENT) == 0) {
-                    lockColor = -2;
-                }
-            }
-        }
-
-        mGlowPadView.setColoredIcons(lockColor, dotColor, ringColor, lock);
-
         updateTargets();
 
         mSecurityMessageDisplay = new KeyguardMessageArea.Helper(this);
         View bouncerFrameView = findViewById(R.id.keyguard_selector_view_frame);
-        mBouncerFrame =
-                KeyguardSecurityViewHelper.colorizeFrame(
-                mContext, bouncerFrameView.getBackground());
+        mBouncerFrame = bouncerFrameView.getBackground();
 
         mDoubleTapGesture = new GestureDetector(mContext,
                 new GestureDetector.SimpleOnGestureListener() {
@@ -412,35 +366,6 @@ public class KeyguardSelectorView extends LinearLayout implements KeyguardSecuri
             storedDrawables.add(new TargetDrawable(res,
                     res.getDrawable(R.drawable.ic_lockscreen_unlock)));
 
-            int frontColor = Settings.Secure.getIntForUser(
-                    mContext.getContentResolver(),
-                    Settings.Secure.LOCKSCREEN_TARGETS_COLOR, -2,
-                    UserHandle.USER_CURRENT);
-
-            int backColor = Settings.Secure.getIntForUser(
-                    mContext.getContentResolver(),
-                    Settings.Secure.LOCKSCREEN_MISC_COLOR, -2,
-                    UserHandle.USER_CURRENT);
-
-            Drawable unlockFront = res.getDrawable(R.drawable.ic_lockscreen_unlock_normal);
-            Drawable unlockBack = res.getDrawable(R.drawable.ic_lockscreen_unlock_activated);;
-
-            if (frontColor != -2) {
-                unlockFront = new BitmapDrawable(
-                        res, ImageHelper.getColoredBitmap(unlockFront, frontColor));
-            }
-
-            if (backColor != -2) {
-                unlockBack = new BitmapDrawable(
-                        res, ImageHelper.getColoredBitmap(unlockBack, backColor));
-            }
-
-            int insetType = LockscreenTargetUtils.getInsetForIconType(
-                    mContext, GlowPadView.ICON_RESOURCE);
-            Drawable unlock = LockscreenTargetUtils.getLayeredDrawable(mContext,
-                    unlockBack, unlockFront, insetType, true);
-            TargetDrawable unlockTarget = new TargetDrawable(res, unlock);
-
             for (int i = 0; i < 8 - mTargetOffset - 1; i++) {
                 if (i >= mStoredTargets.length) {
                     storedDrawables.add(new TargetDrawable(res, 0));
@@ -488,22 +413,6 @@ public class KeyguardSelectorView extends LinearLayout implements KeyguardSecuri
                     }
 
                     int inset = LockscreenTargetUtils.getInsetForIconType(mContext, type);
-
-                    if (frontColor != -2) {
-                        front = new BitmapDrawable(
-                                res, ImageHelper.getColoredBitmap(front, frontColor));
-                    }
-
-                    if (backColor != -2) {
-                        if ((back instanceof InsetDrawable)) {
-                            back = new BitmapDrawable(res, ImageHelper.getColoredBitmap(
-                                    blankActiveDrawable, backColor));
-                        } else {
-                            back = new BitmapDrawable(res, ImageHelper.getColoredBitmap(
-                                    back, backColor));
-                        }
-                    }
-
                     Drawable drawable = LockscreenTargetUtils.getLayeredDrawable(mContext,
                             back,front, inset, frontBlank);
                     TargetDrawable targetDrawable = new TargetDrawable(res, drawable);
