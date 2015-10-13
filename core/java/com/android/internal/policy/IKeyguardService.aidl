@@ -44,6 +44,7 @@ interface IKeyguardService {
     oneway void showAssistant();
     oneway void dispatchCameraEvent(in MotionEvent event);
     oneway void dispatchApplicationWidgetEvent(in MotionEvent event);
+    oneway void dispatchButtonClick(int buttonId);
     oneway void launchCamera();
     oneway void launchApplicationWidget();
     oneway void onBootCompleted();
