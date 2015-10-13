@@ -203,7 +203,7 @@ public class KeyguardViewManager {
       }
 
     private void updateSettings() {
-      mLockscreenNotifications = Settings.System.getInt(mContext.getContentResolver(),
+        mLockscreenNotifications = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.LOCKSCREEN_NOTIFICATIONS, mLockscreenNotifications ? 1 : 0) == 1;
         if(mLockscreenNotifications && mNotificationViewManager == null) {
             mNotificationViewManager = new NotificationViewManager(mContext, this);
@@ -1114,10 +1114,6 @@ public class KeyguardViewManager {
         if (mKeyguardView != null) {
             mKeyguardView.dispatchApplicationWidgetEvent(event);
         }
-    }
-
-    public void dispatchButtonClick(int buttonId) {
-        mNotificationView.onButtonClick(buttonId);
     }
 
     public void launchCamera() {

@@ -4185,7 +4185,7 @@ public final class Settings {
         public static final String LOCKSCREEN_NOTIFICATIONS_DISMISS_ALL = "lockscreen_notifications_dismiss_all";
 
         /**
-         * Toggle between extended and normal view by longpressing the notification
+         * Show lockscreen notifications extended when possible
          * @hide
          */
         public static final String LOCKSCREEN_NOTIFICATIONS_EXPANDED_VIEW = "lockscreen_notifications_expanded_view";
@@ -4221,12 +4221,6 @@ public final class Settings {
         public static final String LOCKSCREEN_NOTIFICATIONS_PRIVACY_MODE = "lockscreen_notifications_privacy_mode";
 
         /**
-         * Enables dynamic with for shown notifications
-         * @hide
-         */
-        public static final String LOCKSCREEN_NOTIFICATIONS_DYNAMIC_WIDTH = "lockscreen_notifications_dynamic_width";
-
-        /**
          * A list of packages to exclude from being displayed as lockscreen notifications.
          * This should be a string of packages separated by |
          * @hide
@@ -4239,7 +4233,7 @@ public final class Settings {
          */
         public static final String LOCKSCREEN_NOTIFICATIONS_COLOR = "lockscreen_notifications_color";
 
-	/**
+        /**
          * Wether navigation bar is enabled or not
          * @hide
          */

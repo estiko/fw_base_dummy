@@ -41,7 +41,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.android.internal.util.slim.QuietHoursHelper;
+import com.android.internal.util.cm.QuietHoursUtils;
 
 public class NotificationViewManager {
     private final static String TAG = "Keyguard:NotificationViewManager";
@@ -69,18 +69,17 @@ public class NotificationViewManager {
 
     class Configuration extends ContentObserver {
         //User configurable values, set defaults here
-        public boolean showAlways = false;
-        public boolean pocketMode = false;
+        public boolean showAlways = true;
+        public boolean pocketMode = true;
         public boolean hideLowPriority = false;
         public boolean hideNonClearable = false;
-        public boolean dismissAll = false;
-        public boolean expandedView = false;
+        public boolean dismissAll = true;
+        public boolean expandedView = true;
         public boolean forceExpandedView = false;
         public boolean wakeOnNotification = false;
         public int notificationsHeight = 4;
         public float offsetTop = 0.3f;
         public boolean privacyMode = false;
-        public boolean dynamicWidth = false;
         public int notificationColor = 0x55555555;
 
         public Configuration(Handler handler) {
@@ -112,8 +111,6 @@ public class NotificationViewManager {
                     Settings.System.LOCKSCREEN_NOTIFICATIONS_OFFSET_TOP), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.LOCKSCREEN_NOTIFICATIONS_PRIVACY_MODE), false, this);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.LOCKSCREEN_NOTIFICATIONS_DYNAMIC_WIDTH), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.LOCKSCREEN_NOTIFICATIONS_EXCLUDED_APPS), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
@@ -150,8 +147,6 @@ public class NotificationViewManager {
                     Settings.System.LOCKSCREEN_NOTIFICATIONS_HEIGHT, notificationsHeight);
             offsetTop = Settings.System.getFloat(mContext.getContentResolver(),
                     Settings.System.LOCKSCREEN_NOTIFICATIONS_OFFSET_TOP, offsetTop);
-            dynamicWidth = Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.LOCKSCREEN_NOTIFICATIONS_DYNAMIC_WIDTH, dynamicWidth ? 1 : 0) == 1;
             String excludedApps = Settings.System.getString(mContext.getContentResolver(),
                     Settings.System.LOCKSCREEN_NOTIFICATIONS_EXCLUDED_APPS);
             notificationColor = Settings.System.getInt(mContext.getContentResolver(),
@@ -168,7 +163,7 @@ public class NotificationViewManager {
                     if (event.values[0] >= ProximitySensor.getMaximumRange()) {
                         if (config.pocketMode && mTimeCovered != 0 && (config.showAlways || mHostView.getNotificationCount() > 0)
                                 && System.currentTimeMillis() - mTimeCovered > MIN_TIME_COVERED
-                                && !QuietHoursHelper.inQuietHours(mContext, Settings.System.QUIET_HOURS_DIM)) {
+                                && !QuietHoursUtils.inQuietHours(mContext, Settings.System.QUIET_HOURS_DIM)) {
                             wakeDevice();
                             mWokenByPocketMode = true;
                             mHostView.showAllNotifications();
@@ -196,10 +191,9 @@ public class NotificationViewManager {
             boolean added = mHostView.addNotification(sbn, (screenOffAndNotCovered || mIsScreenOn) && showNotification,
                     config.forceExpandedView);
             if (added && config.wakeOnNotification && screenOffAndNotCovered
-                      && showNotification && mTimeCovered == 0
-                      && !QuietHoursHelper.inQuietHours(mContext, Settings.System.QUIET_HOURS_DIM)) {
+                      && showNotification && mTimeCovered == 0 
+                      && !QuietHoursUtils.inQuietHours(mContext, Settings.System.QUIET_HOURS_DIM)) {   
                 wakeDevice();
-                mHostView.showAllNotifications();
             }
         }
         @Override
@@ -322,3 +316,4 @@ public class NotificationViewManager {
         mExcludedApps = new HashSet<String>(Arrays.asList(appsToExclude));
     }
 }
+
