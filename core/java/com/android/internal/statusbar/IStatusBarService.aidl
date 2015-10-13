@@ -54,5 +54,4 @@ interface IStatusBarService
     void preloadRecentApps();
     void cancelPreloadRecentApps();
     void setWindowState(int window, int state);
-    void setPieTriggerMask(int newMask, boolean lock);
 }
