@@ -5789,7 +5789,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         mHandler.post(new Runnable() {
             @Override public void run() {
                 if (mBootMsgDialog == null) {
-                    mBootMsgDialog = new PacBusyDialog(mContext, android.R.style.Theme_Translucent_NoTitleBar);
+                    mBootMsgDialog = new XOSBusyDialog(mContext, android.R.style.Theme_Translucent_NoTitleBar);
                     mBootMsgDialog.setTitle(R.string.android_upgrading_title);
                     mBootMsgDialog.getWindow().setType(
                             WindowManager.LayoutParams.TYPE_BOOT_PROGRESS);
