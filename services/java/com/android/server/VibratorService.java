@@ -261,10 +261,7 @@ public class VibratorService extends IVibratorService.Stub
         if (QuietHoursUtils.inQuietHours(mContext, quietHoursMode)) {
             return;
         }
-        if (Settings.Global.getInt(mContext.getContentResolver(),
-                    Settings.Global.BATTERY_SAVER_VIBRATE_DISABLE, 0) != 0) {
-            return;
-        }
+
         // so wakelock calls will succeed
         verifyIncomingUid(uid);
         long identity = Binder.clearCallingIdentity();
