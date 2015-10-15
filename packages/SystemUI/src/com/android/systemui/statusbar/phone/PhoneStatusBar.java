@@ -453,6 +453,21 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         public void onChange(boolean selfChange, Uri uri) {
             if (uri.equals(Settings.System.getUriFor(Settings.System.STATUS_BAR_CLOCK))) {
                 updateClockLocation();
+            } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.NOTIFICATION_BACKGROUND))
+                || uri.equals(Settings.System.getUriFor(
+                    Settings.System.NOTIFICATION_BACKGROUND_LANDSCAPE))
+                || uri.equals(Settings.System.getUriFor(
+                    Settings.System.NOTIFICATION_BACKGROUND_ALPHA))) {
+                if (mNotificationPanel != null) {
+                    mNotificationPanel.setBackgroundDrawables();
+                }
+                if (mSettingsPanel != null) {
+                    mSettingsPanel.setBackgroundDrawables();
+                }
+            } else if (uri.equals(Settings.System.getUriFor(
+                Settings.System.NOTIFICATION_ALPHA))) {
+                setNotificationAlpha();
             } else {
                 updateSettings();
             }
@@ -609,31 +624,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mNavigationBarView.updateResources(getNavbarThemedResources());
         addNavigationBar();
 
-
-        // Used for notification drawer background
-        @Override
-        public void onChange(boolean selfChange, Uri uri) {
-            super.onChange(selfChange, uri);
-
-            if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.NOTIFICATION_BACKGROUND))
-                || uri.equals(Settings.System.getUriFor(
-                    Settings.System.NOTIFICATION_BACKGROUND_LANDSCAPE))
-                || uri.equals(Settings.System.getUriFor(
-                    Settings.System.NOTIFICATION_BACKGROUND_ALPHA))) {
-                if (mNotificationPanel != null) {
-                    mNotificationPanel.setBackgroundDrawables();
-                }
-                if (mSettingsPanel != null) {
-                    mSettingsPanel.setBackgroundDrawables();
-                }
-            } else if (uri.equals(Settings.System.getUriFor(
-                Settings.System.NOTIFICATION_ALPHA))) {
-                setNotificationAlpha();
-                }
-            }
-            updateSettings();
-        }
     }
 
     // ensure quick settings is disabled until the current user makes it through the setup wizard

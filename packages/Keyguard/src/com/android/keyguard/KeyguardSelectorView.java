@@ -232,7 +232,6 @@ public class KeyguardSelectorView extends LinearLayout implements KeyguardSecuri
                 }
             });
         }
-    }
 
 	final boolean lockBeforeUnlock = Settings.Secure.getIntForUser(
                 mContext.getContentResolver(),
@@ -249,6 +248,7 @@ public class KeyguardSelectorView extends LinearLayout implements KeyguardSecuri
                 ecaContainer.bringToFront();
             }
         }
+    }
 
     public void setCarrierArea(View carrierArea) {
         mFadeView = carrierArea;

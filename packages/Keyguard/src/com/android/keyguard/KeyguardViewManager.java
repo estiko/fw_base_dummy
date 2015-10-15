@@ -235,9 +235,6 @@ public class KeyguardViewManager {
         mViewMediatorCallback = callback;
         mLockPatternUtils = lockPatternUtils;
 
-        SettingsObserver observer = new SettingsObserver(new Handler());
-        observer.observe();
-
         mSmartCoverCoords = mContext.getResources().getIntArray(
                 com.android.internal.R.array.config_smartCoverWindowCoords);
         if(mSmartCoverCoords.length != 4) {
