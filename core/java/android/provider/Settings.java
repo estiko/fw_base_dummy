@@ -4361,6 +4361,17 @@ public final class Settings {
         public static final String PROGRESSBAR_COLOR_4 = "progressbar_color_4";
 
         /**
+         * Width and height of output video expressed in WxH
+         * @hide
+         */
+        public static final String SCREEN_RECORDER_OUTPUT_DIMENSIONS = "screen_recorder_output_dimensions";
+
+        /**
+         * Screen recorder framerate in bits per second
+         * @hide
+         */
+        public static final String SCREEN_RECORDER_BITRATE = "screen_recorder_bitrate";
+        /**
          * Timeout for volume panel
          * @hide
          */
