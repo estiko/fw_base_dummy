@@ -626,7 +626,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 }
                 if (mSettingsPanel != null) {
                     mSettingsPanel.setBackgroundDrawables();
-                } else if (uri.equals(Settings.System.getUriFor(
+                }
+            } else if (uri.equals(Settings.System.getUriFor(
                 Settings.System.NOTIFICATION_ALPHA))) {
                 setNotificationAlpha();
                 }
