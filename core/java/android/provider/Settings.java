@@ -4360,6 +4360,12 @@ public final class Settings {
          */
         public static final String PROGRESSBAR_COLOR_4 = "progressbar_color_4";
 
+        /**
+         * Timeout for volume panel
+         * @hide
+         */
+        public static final String VOLUME_PANEL_TIMEOUT = "volume_panel_timeout";
+
     }
 
     /**
