@@ -13,9 +13,7 @@
 
     <EditText
         android:id="@+id/title"
-        android:inputType="textCapSentences"
         android:gravity="start|center_vertical"
-        android:maxLength="25"
         android:paddingStart="5dp"
         android:singleLine="true"
         android:layout_width="match_parent"
@@ -29,7 +27,6 @@
 
     <EditText
         android:id="@+id/message"
-        android:inputType="textCapSentences"
         android:gravity="start|center_vertical"
         android:paddingStart="5dp"
         android:singleLine="true"

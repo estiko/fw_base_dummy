@@ -34,9 +34,6 @@ import com.android.systemui.R;
 
 public class ReminderService extends Service {
 
-    private static final String POST_REMINDER_NOTIFY =
-            "com.android.systemui.POST_REMINDER_NOTIFY";
-
     private MediaPlayer mMediaPlayer;
 
     private boolean mPlaying = false;
@@ -55,13 +52,6 @@ public class ReminderService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         mStopSelf = intent.getBooleanExtra("stopSelf", false);
-        boolean clearNoti = intent.getBooleanExtra("dismissNoti", false);
-        if (clearNoti) {
-            Intent notify = new Intent();
-            notify.setAction(POST_REMINDER_NOTIFY);
-            notify.putExtra("clear", true);
-            this.sendBroadcast(notify);
-        }
         try {
             startAlarmSound();
         } catch (Exception e) {
