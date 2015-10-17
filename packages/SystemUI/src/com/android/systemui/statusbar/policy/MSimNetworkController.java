@@ -1381,7 +1381,7 @@ public class MSimNetworkController extends NetworkController {
                 v.setVisibility(View.VISIBLE);
             }
         }
-
+        setCarrierText();
 
         // e-call label
         N = mEmergencyLabelViews.size();
