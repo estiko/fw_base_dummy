@@ -3129,8 +3129,9 @@ public final class Settings {
         /**
         * Developer options - Navigation Bar show switch
         * @hide
-        */
+        *
         public static final String DEV_FORCE_SHOW_NAVBAR = "dev_force_show_navbar";
+        */
 
         /**
         * AutoHide CombinedBar on tablets.
@@ -4218,6 +4219,12 @@ public final class Settings {
          * @hide
          */
         public static final String LOCKSCREEN_NOTIFICATIONS_COLOR = "lockscreen_notifications_color";
+
+        /**
+         * Wether navigation bar is enabled or not
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_SHOW = "navigation_bar_show";
 
         /**
          * Navigation bar height when it is on protrait

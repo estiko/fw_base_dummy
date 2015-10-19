@@ -251,7 +251,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     int mSettingsPanelGravity;
     private TilesChangedObserver mTilesChangedObserver;
     private SettingsObserver mSettingsObserver;
-    private DevForceNavbarObserver mDevForceNavbarObserver;
+    // private DevForceNavbarObserver mDevForceNavbarObserver;
 
     // Ribbon settings
     private boolean mHasQuickAccessSettings;
@@ -441,7 +441,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
     }
 
-    class DevForceNavbarObserver extends ContentObserver {
+    /* class DevForceNavbarObserver extends ContentObserver {
         DevForceNavbarObserver(Handler handler) {
             super(handler);
         }
@@ -462,7 +462,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 removeNavigationBar();
             }
         }
-    }
+    } */
 
     private void forceAddNavigationBar() {
         // If we have no Navbar view and we should have one, create it
@@ -577,7 +577,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         SettingsObserver observer = new SettingsObserver(mHandler);
         observer.observe();
 
-        // Developer options - Force Navigation bar
+        /* // Developer options - Force Navigation bar
         try {
             boolean needsNav = mWindowManagerService.needsNavigationBar();
             if (!needsNav) {
@@ -586,7 +586,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             }
         } catch (RemoteException ex) {
             // no window manager? good luck with that
-        }
+        } */
 
         // Lastly, call to the icon policy to install/update all the icons.
         mIconPolicy = new PhoneStatusBarPolicy(mContext);
@@ -718,7 +718,23 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         updateShowSearchHoldoff();
 
-        try {
+        if (mNavigationBarView == null) {
+            mNavigationBarView =
+                (NavigationBarView) View.inflate(context, R.layout.navigation_bar, null);
+            mNavigationBarView.updateResources(getNavbarThemedResources());
+        }
+
+        mNavigationBarView.setDisabledFlags(mDisabled);
+        mNavigationBarView.setBar(this);
+        mNavigationBarView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                checkUserAutohide(v, event);
+                return false;
+            }
+        });
+
+        /* try {
             boolean showNav = mWindowManagerService.hasNavigationBar();
             if (DEBUG) Log.v(TAG, "hasNavigationBar=" + showNav);
             if (showNav && !mRecreating) {
@@ -737,7 +753,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             }
         } catch (RemoteException ex) {
             // no window manager? good luck with that
-        }
+        } */
 
         // figure out which pixel-format to use for the status bar.
         mPixelFormat = PixelFormat.OPAQUE;
@@ -1286,13 +1302,13 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mWindowManager.addView(mNavigationBarView, getNavigationBarLayoutParams());
     }
 
-    private void removeNavigationBar() {
+    /* private void removeNavigationBar() {
         if (DEBUG) Log.d(TAG, "removeNavigationBar: about to remove " + mNavigationBarView);
         if (mNavigationBarView == null) return;
 
         mWindowManager.removeView(mNavigationBarView);
         mNavigationBarView = null;
-    }
+    } */
 
     private void repositionNavigationBar() {
         if (mNavigationBarView == null || !mNavigationBarView.isAttachedToWindow()) return;

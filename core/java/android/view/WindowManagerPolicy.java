@@ -1157,8 +1157,9 @@ public interface WindowManagerPolicy {
 
     /**
      * Specifies whether the device needs a navigation bar (because it has no hardware buttons)
-     */
+     *
     public boolean needsNavigationBar();
+     */
 
     /**
      * Specifies whether device can generate KEY_ACTION_MENU keypress

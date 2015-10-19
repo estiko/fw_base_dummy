@@ -10384,10 +10384,10 @@ public class WindowManagerService extends IWindowManager.Stub
         return mPolicy.hasNavigationBar();
     }
 
-    @Override
+    /* @Override
     public boolean needsNavigationBar() {
         return mPolicy.needsNavigationBar();
-    }
+    } */
 
     @Override
     public boolean hasMenuKeyEnabled() {
