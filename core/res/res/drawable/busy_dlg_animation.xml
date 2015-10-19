@@ -3,4 +3,8 @@
   xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:duration="200" android:drawable="@drawable/busy_dlg_animation_0" />
     <item android:duration="200" android:drawable="@drawable/busy_dlg_animation_1" />
+    <item android:duration="200" android:drawable="@drawable/busy_dlg_animation_2" />
+    <item android:duration="200" android:drawable="@drawable/busy_dlg_animation_3" />
+    <item android:duration="200" android:drawable="@drawable/busy_dlg_animation_2" />
+    <item android:duration="200" android:drawable="@drawable/busy_dlg_animation_1" />
 </animation-list>
