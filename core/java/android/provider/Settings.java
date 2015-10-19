@@ -4371,6 +4371,12 @@ public final class Settings {
         public static final String POWER_MENU_SCREENRECORD_ENABLED = "power_menu_screenrecord_enabled";
 
         /**
+         * Whether to use the custom status bar header or not
+         * @hide
+         */
+        public static final String STATUS_BAR_CUSTOM_HEADER = "status_bar_custom_header";
+
+        /**
          * Timeout for volume panel
          * @hide
          */
