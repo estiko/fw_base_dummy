@@ -80,6 +80,7 @@ import android.os.ServiceManager;
 import android.os.SystemClock;
 import android.os.UserHandle;
 import android.provider.Settings;
+import android.provider.Settings.SettingNotFoundException;
 import android.text.TextUtils;
 import android.text.style.SuggestionSpan;
 import android.util.AtomicFile;
@@ -394,7 +395,6 @@ public class InputMethodManagerService extends IInputMethodManager.Stub
     private final IPackageManager mIPackageManager;
 
     class SettingsObserver extends ContentObserver {
-        String mLastEnabled = "";
 
         SettingsObserver(Handler handler) {
             super(handler);
@@ -415,15 +415,7 @@ public class InputMethodManagerService extends IInputMethodManager.Stub
         }
 
         @Override public void onChange(boolean selfChange) {
-            synchronized (mMethodMap) {
-                boolean enabledChanged = false;
-                String newEnabled = mSettings.getEnabledInputMethodsStr();
-                if (!mLastEnabled.equals(newEnabled)) {
-                    mLastEnabled = newEnabled;
-                    enabledChanged = true;
-                }
-                updateFromSettingsLocked(enabledChanged);
-            }
+            updateFromSettingsLocked(true);
         }
     }
 
