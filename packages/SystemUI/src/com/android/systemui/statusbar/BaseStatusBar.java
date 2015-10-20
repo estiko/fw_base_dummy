@@ -77,6 +77,7 @@ import com.android.internal.statusbar.StatusBarIconList;
 import com.android.internal.util.cm.SpamFilter;
 import com.android.internal.util.cm.SpamFilter.SpamContract.NotificationTable;
 import com.android.internal.util.cm.SpamFilter.SpamContract.PackageTable;
+import com.android.internal.util.slim.OmniSwitchConstants;
 import com.android.internal.widget.SizeAdaptiveLayout;
 import com.android.systemui.R;
 import com.android.systemui.RecentsComponent;
@@ -90,6 +91,8 @@ import com.android.systemui.statusbar.policy.NotificationRowLayout;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.HashMap;
 
 public abstract class BaseStatusBar extends SystemUI implements
         CommandQueue.Callbacks {
@@ -689,28 +692,48 @@ public abstract class BaseStatusBar extends SystemUI implements
         }
     };
 
+    private boolean isOmniSwitchEnabled() {
+        int settingsValue = Settings.System.getIntForUser(
+                mContext.getContentResolver(), Settings.System.RECENTS_USE_OMNISWITCH, 0
+                , UserHandle.USER_CURRENT);
+        return (settingsValue == 1);
+    }
+
     protected void toggleRecentsActivity() {
-        if (mRecents != null) {
-            mRecents.toggleRecents(mDisplay, mLayoutDirection, getStatusBarView(),
-                    mExpandedDesktopStyle);
+        if (isOmniSwitchEnabled()){
+            Intent showIntent = new Intent(OmniSwitchConstants.ACTION_TOGGLE_OVERLAY);
+            mContext.sendBroadcastAsUser(showIntent, UserHandle.CURRENT);
+        } else {
+            if (mRecents != null) {
+                mRecents.toggleRecents(mDisplay, mLayoutDirection, getStatusBarView(),
+                        mExpandedDesktopStyle);
+            }
         }
     }
 
     protected void preloadRecentTasksList() {
-        if (mRecents != null) {
-            mRecents.preloadRecentTasksList();
+        if (!isOmniSwitchEnabled()){
+            if (mRecents != null) {
+                mRecents.preloadRecentTasksList();
+            }
         }
     }
 
     protected void cancelPreloadingRecentTasksList() {
-        if (mRecents != null) {
-            mRecents.cancelPreloadingRecentTasksList();
+        if (!isOmniSwitchEnabled()){
+            if (mRecents != null) {
+                mRecents.cancelPreloadingRecentTasksList();
         }
     }
 
     protected void closeRecents() {
-        if (mRecents != null) {
-            mRecents.closeRecents();
+        if (!isOmniSwitchEnabled()){
+            Intent hideIntent = new Intent(OmniSwitchConstants.ACTION_HIDE_OVERLAY);
+            mContext.sendBroadcast(hideIntent);
+        } else {
+            if (mRecents != null) {
+                mRecents.closeRecents();
+            }
         }
     }
 

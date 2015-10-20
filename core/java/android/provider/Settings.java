@@ -4290,6 +4290,12 @@ public final class Settings {
         public static final String NOTIFICATION_ALPHA = "notification_alpha";
 
         /**
+         * Alternative recent apps integration using OmniSwitch
+         * @hide
+         */
+        public static final String RECENTS_USE_OMNISWITCH = "recents_use_omniswitch";
+
+        /**
          * Animate-flip Quick Settings Panel Tiles on click
          *
          * @hide
