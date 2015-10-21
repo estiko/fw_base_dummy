@@ -28,14 +28,25 @@ import android.widget.TextView;
 
 import com.android.internal.widget.LockPatternUtils;
 
+import static java.util.Arrays.asList;
+import java.util.Collections;
+import java.util.List;
+
 public class NumPadKey extends Button {
     // list of "ABC", etc per digit, starting with '0'
     static String sKlondike[];
+
+    static List<Integer> sDigits = asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+    static int sCount = 0;
+    static boolean sShuffled;
 
     int mDigit = -1;
     int mTextViewResId;
     TextView mTextView = null;
     boolean mEnableHaptics;
+
+    Context mContext;
+    TypedArray mStyleable;
 
     private View.OnClickListener mListener = new View.OnClickListener() {
         @Override
@@ -66,15 +77,31 @@ public class NumPadKey extends Button {
 
     public NumPadKey(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.NumPadKey);
-        mDigit = a.getInt(R.styleable.NumPadKey_digit, mDigit);
-        setTextViewResId(a.getResourceId(R.styleable.NumPadKey_textView, 0));
+
+        mContext = context;
+
+        mStyleable = mContext.obtainStyledAttributes(attrs, R.styleable.NumPadKey);
+
+        setTextViewResId(mStyleable.getResourceId(R.styleable.NumPadKey_textView, 0));
 
         setOnClickListener(mListener);
-        setOnHoverListener(new LiftToActivateListener(context));
-        setAccessibilityDelegate(new ObscureSpeechDelegate(context));
+        setOnHoverListener(new LiftToActivateListener(mContext));
+        setAccessibilityDelegate(new ObscureSpeechDelegate(mContext));
 
-        mEnableHaptics = new LockPatternUtils(context).isTactileFeedbackEnabled();
+        mEnableHaptics = new LockPatternUtils(mContext).isTactileFeedbackEnabled();
+        createNumKeyPad(false);
+    }
+
+    public void createNumKeyPad(boolean enableRandom) {
+        if (enableRandom) {
+            if (!sShuffled) {
+                Collections.shuffle(sDigits);
+                sShuffled = true;
+            }
+            mDigit = sDigits.get(sCount);
+        } else {
+            mDigit = mStyleable.getInt(R.styleable.NumPadKey_digit, mDigit);
+        }
         updateText();
     }
 
