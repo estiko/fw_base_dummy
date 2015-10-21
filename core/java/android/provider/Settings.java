@@ -4410,6 +4410,18 @@ public final class Settings {
         public static final String RECENTS_USE_SLIM = "recents_use_slim";
 
         /**
+         * Whether recent panel gravity is left or right (default = Gravity.RIGHT).
+         * @hide
+         */
+        public static final String RECENT_PANEL_GRAVITY = "recent_panel_gravity";
+
+        /**
+         * Size of recent panel view in percent (default = 100).
+         * @hide
+         */
+        public static final String RECENT_PANEL_SCALE_FACTOR = "recent_panel_scale_factor";
+
+        /**
          * Whether to use the custom status bar header or not
          * @hide
          */
