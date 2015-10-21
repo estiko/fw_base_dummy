@@ -28,4 +28,10 @@
         <item name="spb_mirror_mode">@bool/spb_default_mirror_mode</item>
     </style>
 
+    <!-- Slim recent app screen animation -->
+    <style name="Animation.RecentScreen">
+        <item name="windowEnterAnimation">@anim/recent_screen_enter</item>
+        <item name="windowExitAnimation">@anim/recent_screen_exit</item>
+    </style>
+
 </resources>
