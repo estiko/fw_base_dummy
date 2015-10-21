@@ -51,6 +51,7 @@ import android.widget.Toast;
 import com.android.internal.statusbar.IStatusBarService;
 import com.android.internal.util.cm.TorchConstants;
 import static com.android.internal.util.cm.NavigationRingConstants.*;
+import com.android.internal.util.xoplax.TaskUtils;
 import com.android.systemui.R;
 import com.android.systemui.screenshot.TakeScreenshotService;
 import com.android.systemui.statusbar.phone.KeyguardTouchDelegate;
@@ -113,6 +114,9 @@ public class ActionTarget {
             return true;
         } else if (action.equals(ACTION_IME_SWITCHER)) {
             mContext.sendBroadcast(new Intent("android.settings.SHOW_INPUT_METHOD_PICKER"));
+            return true;
+        } else if (action.equals(ACTION_LAST_APP)) {
+            TaskUtils.toggleLastAppImpl(mContext);
             return true;
         } else if (action.equals(ACTION_SCREENSHOT)) {
             takeScreenshot();
