@@ -81,6 +81,7 @@ import com.android.internal.util.slim.OmniSwitchConstants;
 import com.android.internal.widget.SizeAdaptiveLayout;
 import com.android.systemui.R;
 import com.android.systemui.RecentsComponent;
+import com.android.systemui.SearchPanelView;
 import com.android.systemui.SystemUI;
 import com.android.systemui.slimrecent.RecentController;
 import com.android.systemui.cm.SpamMessageProvider;
@@ -732,7 +733,7 @@ public abstract class BaseStatusBar extends SystemUI implements
     }
 
     protected void preloadRecentTasksList() {
-        if (!isOmniSwitchEnabled()){
+        if (!isOmniSwitchEnabled()) {
             if (mRecents != null) {
                 mRecents.preloadRecentTasksList();
             }
@@ -740,7 +741,7 @@ public abstract class BaseStatusBar extends SystemUI implements
     }
 
     protected void cancelPreloadingRecentTasksList() {
-        if (!isOmniSwitchEnabled) {
+        if (!isOmniSwitchEnabled()) {
             if (mRecents != null || mSlimRecents != null) {
                 if (mSlimRecentsEnabled) {
                     mSlimRecents.cancelPreloadingRecentTasksList();
