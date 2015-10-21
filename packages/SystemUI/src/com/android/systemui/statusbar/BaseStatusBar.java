@@ -80,8 +80,7 @@ import com.android.internal.util.cm.SpamFilter.SpamContract.PackageTable;
 import com.android.internal.util.slim.OmniSwitchConstants;
 import com.android.internal.widget.SizeAdaptiveLayout;
 import com.android.systemui.R;
-// import com.android.systemui.RecentsComponent;
-import com.android.systemui.SearchPanelView;
+import com.android.systemui.RecentsComponent;
 import com.android.systemui.SystemUI;
 import com.android.systemui.slimrecent.RecentController;
 import com.android.systemui.cm.SpamMessageProvider;
@@ -186,12 +185,15 @@ public abstract class BaseStatusBar extends SystemUI implements
     private boolean mDeviceProvisioned = false;
     private int mAutoCollapseBehaviour;
 
-    private RecentController mRecents;
+    private RecentsComponent mRecents;
+    private RecentController mSlimRecents;
 
     private ArrayList<String> mDndList;
     private ArrayList<String> mBlacklist;
 
     protected int mExpandedDesktopStyle = 0;
+
+    private boolean mSlimRecentsEnabled;
 
     public IStatusBarService getStatusBarService() {
         return mBarService;
@@ -232,6 +234,9 @@ public abstract class BaseStatusBar extends SystemUI implements
                     Settings.System.EXPANDED_DESKTOP_STATE), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.EXPANDED_DESKTOP_STYLE), false, this);
+            mSlimRecentsEnabled = Settings.System.getIntForUser(
+                    mContext.getContentResolver(), Settings.System.RECENTS_USE_SLIM,
+                    0, UserHandle.USER_CURRENT) == 1;
             update();
         }
 
@@ -325,10 +330,20 @@ public abstract class BaseStatusBar extends SystemUI implements
 
         mSettingsObserver.observe();
 
+        mContext.getContentResolver().registerContentObserver(
+                Settings.System.getUriFor(Settings.System.RECENTS_USE_SLIM), true,
+                mSettingsObserver, UserHandle.USER_ALL);
+
         mBarService = IStatusBarService.Stub.asInterface(
                 ServiceManager.getService(Context.STATUS_BAR_SERVICE));
 
-        mRecents = new RecentController(mContext);
+        mRecents = getComponent(RecentsComponent.class);
+
+        if (mSlimRecentsEnabled) {
+            mSlimRecents = new RecentController(mContext);
+        } else {
+            mRecents = getComponent(RecentsComponent.class);
+        }
 
         mLocale = mContext.getResources().getConfiguration().locale;
         mLayoutDirection = TextUtils.getLayoutDirectionFromLocale(mLocale);
@@ -705,8 +720,13 @@ public abstract class BaseStatusBar extends SystemUI implements
             Intent showIntent = new Intent(OmniSwitchConstants.ACTION_TOGGLE_OVERLAY);
             mContext.sendBroadcastAsUser(showIntent, UserHandle.CURRENT);
         } else {
-            if (mRecents != null) {
-                mRecents.toggleRecents(mDisplay, mLayoutDirection, getStatusBarView());
+            if (mRecents != null || mSlimRecents != null) {
+                if (mSlimRecentsEnabled) {
+                    mSlimRecents.toggleRecents(mDisplay, mLayoutDirection, getStatusBarView());
+                } else {
+                    mRecents.toggleRecents(mDisplay, mLayoutDirection, getStatusBarView(),
+                            mExpandedDesktopStyle);
+                }
             }
         }
     }
@@ -720,9 +740,14 @@ public abstract class BaseStatusBar extends SystemUI implements
     }
 
     protected void cancelPreloadingRecentTasksList() {
-        if (!isOmniSwitchEnabled()){
-            if (mRecents != null) {
-                mRecents.cancelPreloadingRecentTasksList();
+        if (!isOmniSwitchEnabled) {
+            if (mRecents != null || mSlimRecents != null) {
+                if (mSlimRecentsEnabled) {
+                    mSlimRecents.cancelPreloadingRecentTasksList();
+                } else {
+                    mRecents.cancelPreloadingRecentTasksList();
+                }
+            }
         }
     }
 
@@ -731,15 +756,19 @@ public abstract class BaseStatusBar extends SystemUI implements
             Intent hideIntent = new Intent(OmniSwitchConstants.ACTION_HIDE_OVERLAY);
             mContext.sendBroadcast(hideIntent);
         } else {
-            if (mRecents != null) {
-                mRecents.closeRecents();
+            if (mRecents != null || mSlimRecents != null) {
+                if (mSlimRecentsEnabled) {
+                    mSlimRecents.closeRecents();
+                } else {
+                    mRecents.closeRecents();
+                }
             }
         }
     }
 
     protected void rebuildRecentsScreen() {
-        if (mRecents != null) {
-            mRecents.rebuildRecentsScreen();
+        if (mSlimRecents != null && mSlimRecentsEnabled) {
+            mSlimRecents.rebuildRecentsScreen();
         }
     }
 
