@@ -4271,6 +4271,12 @@ public final class Settings {
         */
         public static final String NOTIFICATION_BACKGROUND = "notification_background";
 
+        /**
+         * Navigation recent long press
+         * @hide
+         */
+        public static final String NAVBAR_RECENT_LONG_PRESS = "navbar_recent_long_press";
+
        /**
         * Sets the landscape background of notification drawer
         * @hide
