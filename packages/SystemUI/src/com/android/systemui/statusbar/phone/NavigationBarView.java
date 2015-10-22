@@ -90,6 +90,7 @@ public class NavigationBarView extends LinearLayout {
     private NavBarReceiver mNavBarReceiver;
     private LockPatternUtils mLockUtils;
     private OnClickListener mRecentsClickListener;
+    private OnLongClickListener mRecentsLongClickListener;
     private OnTouchListener mRecentsPreloadListener;
     private OnLongClickListener mRecentsLongClickListener;
     private OnTouchListener mHomeSearchActionListener;
@@ -377,10 +378,11 @@ public class NavigationBarView extends LinearLayout {
         return mInEditMode;
     }
 
-    /* package */ void setListeners(OnClickListener recentsClickListener,
+    /* package */ void setListeners(OnClickListener recentsClickListener, OnLongClickListener recentsLongClickListener,
             OnTouchListener recentsPreloadListener,
             OnTouchListener homeSearchActionListener) {
         mRecentsClickListener = recentsClickListener;
+        mRecentsLongClickListener = recentsLongClickListener;
         mRecentsPreloadListener = recentsPreloadListener;
         mHomeSearchActionListener = homeSearchActionListener;
         updateButtonListeners();
@@ -403,6 +405,7 @@ public class NavigationBarView extends LinearLayout {
         View recentView = findButton(NavbarEditor.NAVBAR_RECENT);
         if (recentView != null) {
             recentView.setOnClickListener(mRecentsClickListener);
+            recentView.setOnLongClickListener(mRecentsLongClickListener);
             recentView.setOnTouchListener(mRecentsPreloadListener);
         }
         View homeView = findButton(NavbarEditor.NAVBAR_HOME);
