@@ -4316,6 +4316,13 @@ public final class Settings {
         public static final String NOTIFICATION_BRIGHTNESS_SLIDER = "notification_brightness_slider";
 
         /**
+         * Wether to allow full screen swipe detection on notification drawer
+         * for swipe to switch or not
+         * @hide
+         */
+        public static final String SWIPE_TO_SWITCH_SCREEN_DETECTION = "full_swipe_to_switch_detection";
+
+        /**
          * Alternative recent apps integration using OmniSwitch
          * @hide
          */
