@@ -4247,6 +4247,12 @@ public final class Settings {
         public static final String LOCKSCREEN_NOTIFICATIONS_COLOR = "lockscreen_notifications_color";
 
         /**
+         * Whether to hide the frame behind lockscreen widgets
+         * @hide
+         */
+        public static final String LOCKSCREEN_WIDGET_FRAME_ENABLED = "lockscreen_widget_frame_enabled";
+
+        /**
          * MediaScanner behavior on boot.
          * 0 = enabled
          * 1 = ask (notification)
