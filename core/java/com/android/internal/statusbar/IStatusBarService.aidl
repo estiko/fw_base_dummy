@@ -60,5 +60,4 @@ interface IStatusBarService
     void toggleScreenshot();
     void toggleLastApp();
     void toggleKillApp();
-    void togglePowerMenu();
 }

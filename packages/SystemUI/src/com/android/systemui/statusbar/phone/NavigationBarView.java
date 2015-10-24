@@ -90,7 +90,6 @@ public class NavigationBarView extends LinearLayout {
     private NavBarReceiver mNavBarReceiver;
     private LockPatternUtils mLockUtils;
     private OnClickListener mRecentsClickListener;
-    private OnLongClickListener mRecentsLongClickListener;
     private OnTouchListener mRecentsPreloadListener;
     private OnLongClickListener mRecentsLongClickListener;
     private OnTouchListener mHomeSearchActionListener;

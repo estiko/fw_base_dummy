@@ -40,6 +40,7 @@ import android.content.res.ThemeConfig;
 import android.content.ServiceConnection;
 import android.database.ContentObserver;
 import android.graphics.Rect;
+import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
