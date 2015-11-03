@@ -41,7 +41,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.android.internal.util.cm.QuietHoursUtils;
+import com.android.internal.util.pac.QuietHoursHelper;
 
 public class NotificationViewManager {
     private final static String TAG = "Keyguard:NotificationViewManager";
@@ -69,8 +69,8 @@ public class NotificationViewManager {
 
     class Configuration extends ContentObserver {
         //User configurable values, set defaults here
-        public boolean showAlways = true;
-        public boolean pocketMode = true;
+        public boolean showAlways = false;
+        public boolean pocketMode = false;
         public boolean hideLowPriority = false;
         public boolean hideNonClearable = false;
         public boolean dismissAll = true;
@@ -168,7 +168,7 @@ public class NotificationViewManager {
                     if (event.values[0] >= ProximitySensor.getMaximumRange()) {
                         if (config.pocketMode && mTimeCovered != 0 && (config.showAlways || mHostView.getNotificationCount() > 0)
                                 && System.currentTimeMillis() - mTimeCovered > MIN_TIME_COVERED
-                                && !QuietHoursUtils.inQuietHours(mContext, Settings.System.QUIET_HOURS_DIM)) {
+                                && !QuietHoursHelper.inQuietHours(mContext, Settings.System.QUIET_HOURS_DIM)) {
                             wakeDevice();
                             mWokenByPocketMode = true;
                             mHostView.showAllNotifications();
@@ -195,9 +195,8 @@ public class NotificationViewManager {
             boolean showNotification = !mHostView.containsNotification(sbn) || mHostView.getNotification(sbn).when != sbn.getNotification().when;
             boolean added = mHostView.addNotification(sbn, (screenOffAndNotCovered || mIsScreenOn) && showNotification,
                     config.forceExpandedView);
-            if (added && config.wakeOnNotification && screenOffAndNotCovered
-                      && showNotification && mTimeCovered == 0 
-                      && !QuietHoursUtils.inQuietHours(mContext, Settings.System.QUIET_HOURS_DIM)) {   
+            if ( added && config.wakeOnNotification && screenOffAndNotCovered
+                        && showNotification && mTimeCovered == 0) {
                 wakeDevice();
             }
         }
@@ -321,4 +320,3 @@ public class NotificationViewManager {
         mExcludedApps = new HashSet<String>(Arrays.asList(appsToExclude));
     }
 }
-

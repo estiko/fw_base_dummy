@@ -440,7 +440,7 @@ public class NavigationBarView extends LinearLayout {
 
     // used for lockscreen notifications
     public View getNotifsButton() {
-        return mCurrentView == null ? null : mCurrentView.findViewById(R.id.show_notifs);
+       return mCurrentView.findViewById(R.id.show_notifs);
     }
 
     // shown when keyguard is visible and application widget button is available
@@ -731,6 +731,7 @@ public class NavigationBarView extends LinearLayout {
                         Settings.System.LOCKSCREEN_NOTIFICATIONS, 1) == 1 &&
                 Settings.System.getInt(mContext.getContentResolver(),
                         Settings.System.LOCKSCREEN_NOTIFICATIONS_PRIVACY_MODE, 0) == 0;
+
         setVisibleOrGone(getSearchLight(), showSearch && mModLockDisabled
                 && NavigationRingHelpers.hasLockscreenTargets(mContext));
         setVisibleOrGone(getCameraButton(), showCamera);
