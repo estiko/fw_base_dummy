@@ -29,7 +29,7 @@ oneway interface IStatusBar
     void removeNotification(IBinder key);
     void disable(int state);
     void animateExpandNotificationsPanel();
-    void animateExpandSettingsPanel(boolean flip);
+    void animateExpandSettingsPanel();
     void animateCollapsePanels();
     void setSystemUiVisibility(int vis, int mask);
     void topAppWindowChanged(boolean menuVisible);
@@ -41,10 +41,5 @@ oneway interface IStatusBar
     void setWindowState(int window, int state);
     void setButtonDrawable(int buttonId, int iconId);
     void setAutoRotate(boolean enabled);
-    void toggleNotificationShade();
-    void toggleQSShade();
-    void toggleScreenshot();
-    void toggleLastApp();
-    void toggleKillApp();
 }
 
